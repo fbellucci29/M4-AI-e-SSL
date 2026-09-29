@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 - Informativa ai lavoratori</title>
+<style>
+  :root{
+    --bg:#eef1f5; --paper:#fff; --ink:#1f2733; --muted:#5b6673; --line:#d5dbe3;
+    --accent:#1f4e79; --accent-soft:#eaf1f8; --ok:#1a7f4b; --ok-bg:#e7f5ec;
+    --err:#c0261e; --err-bg:#fbeae9; --fieldbg:#fbfcfe;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55;padding:22px 14px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:880px;margin:0 auto;}
+  .sheet{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 6px 24px rgba(20,40,70,.08);margin-bottom:20px;}
+  .top{background:var(--accent);color:#fff;padding:18px 26px;}
+  .top .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;}
+  .top h1{margin:4px 0 0;font-size:20px;font-weight:650;}
+  .body{padding:20px 26px 26px;}
+  h2.sec{font-size:15.5px;color:var(--accent);border-bottom:2px solid var(--accent-soft);padding-bottom:6px;margin:20px 0 12px;}
+  .legend{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 15px;border-radius:6px;font-size:13.5px;margin-bottom:16px;}
+  .legend b{color:var(--accent);}
+  .mrow{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:9px;background:var(--fieldbg);display:grid;grid-template-columns:1fr 210px;gap:10px;align-items:center;}
+  .mrow .mt{font-size:13.5px;}
+  @media(max-width:620px){.mrow{grid-template-columns:1fr;}}
+  .doc-edit{border:1px solid var(--line);border-radius:9px;background:#fff;padding:16px 18px;font-size:14px;}
+  .doc-edit p{margin:10px 0;}
+  .doc-edit .lead{font-weight:600;color:var(--accent);}
+  .cell{border-radius:6px;padding:2px;display:inline-block;}
+  .cell.block{display:block;}
+  .cell.correct{box-shadow:0 0 0 2px var(--ok);} .cell.wrong{box-shadow:0 0 0 2px var(--err);}
+  select{padding:7px 9px;font-size:13.5px;border:1px solid var(--line);border-radius:6px;background:#fbfcfe;color:var(--ink);font-family:inherit;max-width:100%;}
+  .inlinesel select{margin:2px 0;}
+  .fb{font-size:12px;margin-top:3px;display:none;}
+  .cell.correct .fb,.cell.wrong .fb{display:block;}
+  .cell.correct .fb{color:var(--ok);} .cell.wrong .fb{color:var(--err);}
+  .actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
+  button{font-family:inherit;font-size:14.5px;font-weight:600;border:none;border-radius:8px;padding:11px 20px;cursor:pointer;}
+  .btn-primary{background:var(--accent);color:#fff;} .btn-primary:hover{background:#173d5e;}
+  .btn-ghost{background:#fff;color:var(--accent);border:1px solid var(--accent);}
+  .note{font-size:13px;color:var(--muted);margin-top:10px;} .hidden{display:none;}
+  .check{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:16px;display:none;}
+  .check.show{display:block;} .check h3{margin:0 0 8px;font-size:15px;}
+  .check .ci{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:13.5px;border-bottom:1px dotted var(--line);}
+  .check .ci:last-child{border-bottom:none;}
+  .badge{width:22px;height:22px;border-radius:50%;flex:0 0 22px;text-align:center;line-height:22px;font-weight:800;color:#fff;font-size:13px;}
+  .badge.ok{background:var(--ok);} .badge.no{background:var(--err);} .badge.na{background:#b7c0cc;}
+  #doc{border:1px solid var(--line);border-radius:8px;padding:26px;font-size:13.7px;}
+  #doc h2{font-size:16px;margin:0 0 2px;} #doc .sub{color:var(--muted);font-size:12.5px;margin-bottom:14px;}
+  #doc h3.mh{color:var(--accent);font-size:14px;margin:16px 0 4px;}
+  #doc p{margin:7px 0;}
+  #doc .foot{margin-top:16px;font-size:12.5px;color:var(--muted);}
+  .stamp{display:inline-block;padding:5px 12px;border-radius:6px;font-weight:700;font-size:12.5px;margin-bottom:12px;color:var(--ok);border:2px solid var(--ok);background:var(--ok-bg);}
+  footer{font-size:12px;color:var(--muted);text-align:center;padding:10px;}
+  @media print{ body{background:#fff;padding:0;} .no-print{display:none !important;} .sheet{border:none;box-shadow:none;} #doc{border:none;padding:0;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sheet">
+    <div class="top">
+      <div class="kicker">Corso IA e sicurezza sul lavoro · Modulo 4 · Serious game</div>
+      <h1>L'informativa preventiva ai lavoratori</h1>
+    </div>
+    <div class="body">
+      <div class="legend">
+        L'azienda usa il sistema <b>SmartTalent</b> (screening dei CV) per la selezione: scatta l'obbligo di
+        <b>informativa preventiva</b> (L. 132/2025 art. 11, con GDPR artt. 13-14 e 22). Un'informativa <b>vaga,
+        incompleta o con riferimenti sbagliati</b> è già non conforme.
+      </div>
+
+      <!-- PARTE 1 -->
+      <h2 class="sec">Parte 1 — Che cosa deve (o non deve) contenere l'informativa</h2>
+      <p class="note" style="margin-top:-6px">Per ogni voce indica se è un contenuto <b>obbligatorio</b> oppure no.</p>
+      <form id="p1">
+        <div class="mrow" data-correct="Obbligatoria"><div class="mt">La finalità specifica per cui l'IA viene utilizzata</div>
+          <div class="cell block"><select><option value="">—</option><option>Obbligatoria</option><option>Non va inserita</option></select><div class="fb"></div></div></div>
+        <div class="mrow" data-correct="Obbligatoria"><div class="mt">La logica essenziale del sistema, in linguaggio chiaro</div>
+          <div class="cell block"><select><option value="">—</option><option>Obbligatoria</option><option>Non va inserita</option></select><div class="fb"></div></div></div>
+        <div class="mrow" data-correct="Non va inserita"><div class="mt">Il codice sorgente del modello di IA</div>
+          <div class="cell block"><select><option value="">—</option><option>Obbligatoria</option><option>Non va inserita</option></select><div class="fb"></div></div></div>
+        <div class="mrow" data-correct="Obbligatoria"><div class="mt">La presenza e il ruolo della supervisione umana</div>
+          <div class="cell block"><select><option value="">—</option><option>Obbligatoria</option><option>Non va inserita</option></select><div class="fb"></div></div></div>
+        <div class="mrow" data-correct="Obbligatoria"><div class="mt">Il diritto all'intervento umano e alla contestazione della decisione</div>
+          <div class="cell block"><select><option value="">—</option><option>Obbligatoria</option><option>Non va inserita</option></select><div class="fb"></div></div></div>
+        <div class="mrow" data-correct="Obbligatoria"><div class="mt">L'indicazione dei dati personali trattati dal sistema</div>
+          <div class="cell block"><select><option value="">—</option><option>Obbligatoria</option><option>Non va inserita</option></select><div class="fb"></div></div></div>
+      </form>
+
+      <!-- PARTE 2 -->
+      <h2 class="sec">Parte 2 — Compila l'informativa</h2>
+      <p class="note" style="margin-top:-6px">Scegli per ogni spazio la formulazione <b>corretta</b>. Attenzione: alcune differenze sono minime ma cambiano il significato giuridico.</p>
+      <div class="doc-edit" id="p2">
+        <p class="lead">Informativa sull'uso di sistemi di intelligenza artificiale nella selezione del personale</p>
+        <p>Gentile candidato/a, ai sensi dell'<span class="cell inlinesel" data-req="base" data-correct="art. 11 della Legge 132/2025 e della normativa sulla protezione dei dati (GDPR)"><select><option value="">— base normativa —</option><option>art. 11 della Legge 132/2025 e della normativa sulla protezione dei dati (GDPR)</option><option>art. 4 dello Statuto dei Lavoratori</option><option>art. 13 del D.Lgs. 231/2001</option></select><span class="fb"></span></span> la informiamo che la selezione si avvale di un sistema di intelligenza artificiale.</p>
+
+        <p><b>Finalità.</b> Il sistema è utilizzato per <span class="cell inlinesel" data-req="finalita" data-correct="la selezione dei candidati mediante analisi e scoring dei curriculum"><select><option value="">— finalità —</option><option>la selezione dei candidati mediante analisi e scoring dei curriculum</option><option>generiche finalità di miglioramento dei processi aziendali</option><option>finalità esclusivamente statistiche e in forma anonima</option></select><span class="fb"></span></span>.</p>
+
+        <p><b>Logica.</b> Le vengono comunicati <span class="cell inlinesel" data-req="logica" data-correct="i criteri principali e la logica essenziale, in linguaggio chiaro"><select><option value="">— logica —</option><option>i criteri principali e la logica essenziale, in linguaggio chiaro</option><option>i dettagli tecnici completi e il modello matematico del sistema</option><option>nessun dettaglio, a tutela del segreto industriale del fornitore</option></select><span class="fb"></span></span>.</p>
+
+        <p><b>Supervisione umana.</b> <span class="cell inlinesel" data-req="super" data-correct="La decisione finale è sempre adottata da un responsabile"><select><option value="">— supervisione —</option><option>La decisione finale è sempre adottata da un responsabile</option><option>La decisione è adottata dal sistema e ratificata dal responsabile</option><option>La decisione è automatizzata per garantire l'imparzialità</option></select><span class="fb"></span></span>.</p>
+
+        <p><b>Diritti.</b> Lei ha diritto a <span class="cell inlinesel" data-req="diritti" data-correct="esprimere la propria opinione e contestare la decisione"><select><option value="">— diritti —</option><option>esprimere la propria opinione e contestare la decisione</option><option>ricevere copia del codice sorgente dell'algoritmo utilizzato</option><option>essere informato al termine del processo di selezione</option></select><span class="fb"></span></span>.</p>
+
+        <p><b>Referente.</b> Per esercitare i suoi diritti può rivolgersi <span class="cell inlinesel" data-req="referente" data-correct="al Titolare del trattamento e al DPO, ai recapiti indicati"><select><option value="">— referente —</option><option>al Titolare del trattamento e al DPO, ai recapiti indicati</option><option>esclusivamente al fornitore del software (TalentTech Solutions)</option><option>all'Agenzia per la Cybersicurezza Nazionale (ACN)</option></select><span class="fb"></span></span>.</p>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="check">Verifica conformità</button>
+        <button type="button" class="btn-ghost" id="reset">Ricomincia</button>
+      </div>
+
+      <div class="check" id="checklist">
+        <h3>Checklist di conformità — art. 11 L. 132/2025</h3>
+        <div class="ci"><span class="badge na" data-req="base">•</span> Riferimento normativo corretto e natura preventiva dell'informativa</div>
+        <div class="ci"><span class="badge na" data-req="finalita">•</span> Finalità specifica dell'uso dell'IA</div>
+        <div class="ci"><span class="badge na" data-req="logica">•</span> Logica essenziale in linguaggio chiaro</div>
+        <div class="ci"><span class="badge na" data-req="super">•</span> Supervisione umana effettiva</div>
+        <div class="ci"><span class="badge na" data-req="diritti">•</span> Diritti del lavoratore (intervento umano, contestazione)</div>
+        <div class="ci"><span class="badge na" data-req="referente">•</span> Referente per l'esercizio dei diritti</div>
+        <p class="note" id="checkMsg"></p>
+        <div id="after"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Informativa finale -->
+  <div class="sheet hidden" id="docSheet">
+    <div class="body">
+      <div id="doc"></div>
+      <div class="actions no-print">
+        <button type="button" class="btn-primary" id="printDoc">Stampa / Salva come PDF</button>
+        <button type="button" class="btn-ghost" id="closeDoc">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="no-print">Compilazione a scopo formativo · nessun dato viene salvato</footer>
+</div>
+
+<script>
+(function(){
+  function shuffleSelects(){
+    Array.prototype.forEach.call(document.querySelectorAll('select'),function(sel){
+      var rest=Array.prototype.slice.call(sel.options).filter(function(o){return o.value!=='';});
+      for(var i=rest.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=rest[i];rest[i]=rest[j];rest[j]=t;}
+      rest.forEach(function(o){sel.removeChild(o);});
+      rest.forEach(function(o){sel.appendChild(o);});
+    });
+  }
+  shuffleSelects();
+
+  var cells=Array.prototype.slice.call(document.querySelectorAll('.cell'));
+  function want(c){ return c.getAttribute('data-correct') || (c.closest('.mrow')&&c.closest('.mrow').getAttribute('data-correct')); }
+  function grade(c){
+    var sel=c.querySelector('select'),w=want(c),got=sel.value,fb=c.querySelector('.fb');
+    c.classList.remove('correct','wrong');
+    if(got===w){c.classList.add('correct');fb.textContent='✓';return true;}
+    c.classList.add('wrong');fb.textContent=got?('✗ corretto: '+w):('✗ da compilare');return false;
+  }
+  function reqOk(req){
+    var c=document.querySelector('.cell[data-req="'+req+'"]');
+    return c && c.querySelector('select').value===c.getAttribute('data-correct');
+  }
+
+  document.getElementById('check').addEventListener('click',function(){
+    var ok=0; cells.forEach(function(c){ if(grade(c)) ok++; });
+    var tot=cells.length;
+    // checklist badges (mappate ai blank di Parte 2)
+    var reqs=['base','finalita','logica','super','diritti','referente'], allReq=true;
+    reqs.forEach(function(r){
+      var good=reqOk(r);
+      if(!good)allReq=false;
+      document.querySelectorAll('.badge[data-req="'+r+'"]').forEach(function(b){
+        b.className='badge '+(good?'ok':'no'); b.textContent=good?'✓':'✗';
+      });
+    });
+    var cl=document.getElementById('checklist'); cl.classList.add('show');
+    var msg=document.getElementById('checkMsg'), after=document.getElementById('after'); after.innerHTML='';
+    var p1ok = ok - reqs.filter(function(r){return reqOk(r);}).length; // solo indicativo
+    if(ok===tot){
+      msg.innerHTML='<b>Informativa conforme.</b> Tutti i requisiti dell’art. 11 sono soddisfatti. Puoi generare il documento definitivo.';
+      var b=document.createElement('button'); b.className='btn-primary'; b.textContent='Genera l’informativa'; b.addEventListener('click',viewDoc);
+      after.appendChild(b);
+    } else {
+      msg.innerHTML='Punteggio '+ok+'/'+tot+'. Rivedi i campi in rosso. Ricorda: il diritto è alla <b>logica</b>, non al codice sorgente; l’informativa è <b>preventiva</b>; la supervisione umana è <b>effettiva</b>, non una ratifica formale.';
+    }
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    cells.forEach(function(c){c.classList.remove('correct','wrong');c.querySelector('select').value='';});
+    document.querySelectorAll('.badge').forEach(function(b){b.className='badge na';b.textContent='•';});
+    document.getElementById('checklist').classList.remove('show');
+    document.getElementById('docSheet').classList.add('hidden');
+  });
+
+  function viewDoc(){
+    document.getElementById('doc').innerHTML = `
+     <span class="stamp">✓ INFORMATIVA CONFORME — L. 132/2025 · GDPR · AI ACT (UE 2024/1689)</span>
+<h2>Informativa sull'utilizzo di sistemi di intelligenza artificiale nella selezione del personale</h2>
+<div class="sub">Rossi Manifatture S.r.l. — Titolare del trattamento · rev. 29/09/2026</div>
+
+<p>Gentile candidato/a, ai sensi dell'<b>art. 11 della Legge 23 settembre 2025, n. 132</b>, secondo le modalità informative del decreto trasparenza (art. 1-bis del D.Lgs. 152/1997), in conformità al Regolamento UE 2016/679 (GDPR) e nel rispetto degli obblighi previsti per i sistemi ad alto rischio dal <b>Regolamento UE 2024/1689 (AI Act)</b>, La informiamo che il processo di selezione si avvale di un sistema di intelligenza artificiale.</p>
+
+<h3 class="mh">1 · Sistema utilizzato, tipo di IA e metriche</h3>
+<p>Denominazione: <b>SmartTalent AI Selector</b> (fornitore TalentTech Solutions S.p.A.). Tipologia: sistema <b>decisionale e valutativo di supporto</b>, con componente di analisi del linguaggio naturale (NLP) per la lettura dei curricula e delle risposte ai questionari. Il sistema è conforme agli standard tecnici di accuratezza e robustezza informatica ed è monitorato per prevenire e rilevare eventuali distorsioni algoritmiche (<i>bias</i>) o discriminazioni.</p>
+
+<h3 class="mh">2 · Finalità del trattamento</h3>
+<p>Il sistema è utilizzato per la selezione dei candidati mediante analisi e scoring dei <b>curricula</b>, in relazione ai requisiti tecnici e attitudinali della posizione. Il ricorso all'IA costituisce un <b>supporto strumentale</b>: la valutazione umana resta prevalente e centrale.</p>
+
+<h3 class="mh">3 · Dati trattati, collocazione e tracciabilità</h3>
+<p>Sono trattati i dati anagrafici, i <b>curricula</b> e le risposte fornite dal candidato. I dati sono conservati su infrastruttura cloud in ambito UE per il tempo necessario alla selezione, nel rispetto dei principi di minimizzazione. Per garantire la verificabilità del processo, i registri di funzionamento (<i>log</i>) generati durante la valutazione sono conservati in modo sicuro per il periodo minimo di 6 mesi previsto dall'AI Act.</p>
+
+<h3 class="mh">4 · Logica, criteri e ponderazione</h3>
+<p>Le comunichiamo i criteri principali e la logica essenziale, in linguaggio chiaro: il punteggio di raccomandazione deriva dal confronto tra le competenze indicate nei <b>curricula</b> e i requisiti della posizione. Fermo restando il segreto commerciale sulla tecnologia e sul codice sorgente, Le è garantita la piena comprensione dei criteri e dei pesi algoritmici che incidono sulla valutazione.</p>
+
+<h3 class="mh">5 · Supervisione umana costante</h3>
+<p>La decisione finale è sempre adottata da un responsabile della selezione in carne e ossa: l'intelligenza artificiale fornisce esclusivamente una raccomandazione non vincolante. <b>Nessun candidato viene escluso in modo totalmente automatizzato</b> dal sistema; i profili a basso punteggio sono comunque sottoposti a verifica e convalida umana.</p>
+
+<h3 class="mh">6 · I Suoi diritti</h3>
+<p>Oltre ai diritti di accesso, rettifica e opposizione previsti dal GDPR, Lei ha il diritto di ottenere una <b>spiegazione chiara e comprensibile</b> sul ruolo svolto dal sistema di IA nella Sua specifica valutazione, di richiedere l'<b>intervento umano</b> per rivedere la raccomandazione, di esprimere la propria opinione e di <b>contestare la decisione</b> finale (art. 22 GDPR).</p>
+
+<h3 class="mh">7 · Contatti e Referenti</h3>
+<p>Il trattamento dei dati personali è descritto nella specifica informativa privacy aziendale allegata. Per esercitare i Suoi diritti o richiedere chiarimenti sul funzionamento del sistema di IA, può rivolgersi al Titolare del trattamento o al Responsabile della protezione dei dati (DPO) all'indirizzo e-mail: <b>[DPO — indirizzo e-mail]</b>.</p>
+      <h3 class="mh">7 · Trattamento dei dati e referente</h3>
+      <p>Il trattamento dei dati personali è descritto nella specifica informativa privacy allegata. Per esercitare i Suoi diritti può rivolgersi al <b>Titolare del trattamento</b> e al <b>Responsabile della protezione dei dati (DPO)</b>, ai recapiti indicati in calce.</p>
+
+      <p class="foot">La presente informativa Le è fornita <b>prima dell'avvio del trattamento</b>.<br>Luogo __________ · Data __________ · Il Titolare del trattamento __________________ · Per presa visione, il candidato __________________<br>Contatti: [Titolare del trattamento] · [DPO — indirizzo e-mail].</p>`;
+    document.getElementById('docSheet').classList.remove('hidden');
+    document.getElementById('docSheet').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.getElementById('printDoc').addEventListener('click',function(){
+    var inner=document.getElementById('doc').innerHTML;
+    var css='body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#1f2733;max-width:760px;margin:24px auto;padding:0 20px;line-height:1.55;font-size:13.7px}'+
+      'h2{font-size:16px;margin:0 0 2px}.sub{color:#5b6673;font-size:12.5px;margin-bottom:14px}h3.mh{color:#1f4e79;font-size:14px;margin:16px 0 4px}p{margin:7px 0}.foot{margin-top:16px;font-size:12.5px;color:#5b6673}'+
+      '.stamp{display:inline-block;padding:5px 12px;border-radius:6px;font-weight:700;font-size:12.5px;margin-bottom:12px;color:#1a7f4b;border:2px solid #1a7f4b;background:#e7f5ec}';
+    var html='<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><title>Informativa uso IA — selezione del personale</title><style>'+css+'</style></head><body>'+inner+'</body></html>';
+    var w=window.open('','_blank');
+    if(!w){alert('Abilita le finestre popup del browser per stampare o salvare in PDF.');return;}
+    w.document.open();w.document.write(html);w.document.close();w.focus();
+    setTimeout(function(){w.print();},300);
+  });
+  document.getElementById('closeDoc').addEventListener('click',function(){document.getElementById('docSheet').classList.add('hidden');});
+})();
+</script>
+</body>
+</html>
